@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMR S-CO₂/ORC - Sistema Completo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        header { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 25px; text-align: center; border-radius: 10px 10px 0 0; }
+        h1 { font-size: 26px; margin-bottom: 8px; }
+        .subtitle { font-size: 13px; opacity: 0.9; }
+        .tabs { display: flex; background: #e9ecef; flex-wrap: wrap; }
+        .tab { flex: 1; min-width: 180px; padding: 14px 8px; text-align: center; cursor: pointer; background: #dee2e6; border: none; font-weight: 600; font-size: 12px; transition: 0.3s; }
+        .tab:hover { background: #ced4da; }
+        .tab.active { background: white; color: #1e3c72; border-bottom: 3px solid #667eea; }
+        .content { display: none; padding: 20px; }
+        .content.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 11px; }
+        th { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 9px; text-align: left; }
+        td { padding: 7px 9px; border-bottom: 1px solid #e9ecef; }
+        tr:hover { background: #f8f9fa; }
+        .blue { background: #cfe2ff !important; font-weight: 600; }
+        .yellow { background: #fff3cd !important; font-weight: 600; }
+        .green { background: #d4edda !important; font-weight: 600; }
+        .info-box { background: #e7f3ff; border-left: 4px solid #0d6efd; padding: 14px; margin: 15px 0; border-radius: 4px; }
+        .info-box h3 { color: #0d6efd; margin-bottom: 7px; font-size: 15px; }
+        .info-box p { line-height: 1.6; font-size: 12px; color: #333; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin: 15px 0; }
+        .card { background: #f8f9fa; border: 2px solid #dee2e6; border-radius: 8px; padding: 14px; }
+        .card h4 { color: #667eea; margin-bottom: 9px; font-size: 13px; border-bottom: 2px solid #667eea; padding-bottom: 4px; }
+        .card .value { font-size: 22px; font-weight: bold; color: #1e3c72; margin: 7px 0; }
+        .card .unit { font-size: 11px; color: #6c757d; }
+        .card p { font-size: 11px; margin-top: 8px; line-height: 1.5; }
+    </style>
+    <script>
+        function showTab(n) {
+            document.querySelectorAll('.tab').forEach((t, i) => {
+                t.classList.toggle('active', i === n-1);
+                document.querySelectorAll('.content')[i].classList.toggle('active', i === n-1);
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sistema Integrado SMR: S-CO₂/ORC + Chiller + Data Center NVIDIA</h1>
+            <p class="subtitle">Dados Exatos Tabela 4 | Energies 2024, 17, 2377 | T₀=500°C | 100 MWₜ SMR</p>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="showTab(1)">Tabela 4</button>
+            <button class="tab" onclick="showTab(2)">Recuperação</button>
+            <button class="tab" onclick="showTab(3)">Chiller</button>
+            <button class="tab" onclick="showTab(4)">Data Center</button>
+            <button class="tab" onclick="showTab(5)">Balanço Total</button>
+        </div>
+        
+        <div id="tab1" class="content active">
+            <h2 style="color: #1e3c72; margin-bottom: 12px; font-size: 18px;">Dados Oficiais - Ciclo com Recuperador (500°C)</h2>
+            <table>
+                <thead>
+                    <tr><th>Ponto</th><th>Fluido</th><th>T (°C)</th><th>P (MPa)</th><th>h (kJ/kg)</th><th>s (kJ/kg·K)</th><th>G/G₀</th><th>Vazão (kg/s)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Na</td><td>500.000</td><td>0.100</td><td>-</td><td>-</td><td>-</td><td>~80</td></tr>
+                    <tr><td>2</td><td>CO₂</td><td>490.000</td><td>40.959</td><td>946.294</td><td>2.486</td><td>1.000</td><td>115</td></tr>
+                    <tr class="blue"><td><strong>3</strong></td><td>CO₂</td><td><strong>303.239</strong></td><td><strong>7.650</strong></td><td><strong>757.225</strong></td><td>2.523</td><td>1.000</td><td><strong>115</strong></td></tr>
+                    <tr class="blue"><td><strong>4</strong></td><td>CO₂</td><td><strong>137.604</strong></td><td><strong>7.600</strong></td><td><strong>569.354</strong></td><td>2.140</td><td>1.000</td><td><strong>115</strong></td></tr>
+                    <tr class="blue"><td><strong>5</strong></td><td>CO₂</td><td><strong>67.211</strong></td><td><strong>7.550</strong></td><td><strong>476.576</strong></td><td>1.892</td><td>1.000</td><td><strong>115</strong></td></tr>
+                    <tr class="yellow"><td><strong>6</strong></td><td>CO₂</td><td>32.000</td><td>7.500</td><td>362.206</td><td>1.531</td><td>1.000</td><td>115</td></tr>
+                    <tr class="yellow"><td><strong>7</strong></td><td>CO₂</td><td><strong>127.604</strong></td><td><strong>41.059</strong></td><td><strong>428.143</strong></td><td>1.548</td><td>1.000</td><td><strong>115</strong></td></tr>
+                    <tr><td>8</td><td>CO₂</td><td>243.488</td><td>41.009</td><td>616.014</td><td>1.961</td><td>1.000</td><td>115</td></tr>
+                </tbody>
+            </table>
+            <h3 style="color: #dc3545; margin: 18px 0 10px; font-size: 16px;">Ciclo ORC (R134a)</h3>
+            <table>
+                <thead>
+                    <tr><th>Ponto</th><th>Fluido</th><th>T (°C)</th><th>P (MPa)</th><th>h (kJ/kg)</th><th>G/G₀</th><th>Vazão (kg/s)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>9</td><td>R134a</td><td>96.818</td><td>2.944</td><td>449.348</td><td>0.451</td><td>51.9</td></tr>
+                    <tr><td>10</td><td>R134a</td><td>39.038</td><td>0.770</td><td>424.255</td><td>0.451</td><td>51.9</td></tr>
+                    <tr><td>11</td><td>R134a</td><td>30.000</td><td>0.770</td><td>241.722</td><td>0.451</td><td>51.9</td></tr>
+                    <tr><td>12</td><td>R134a</td><td>31.417</td><td>2.944</td><td>243.748</td><td>0.451</td><td>51.9</td></tr>
+                </tbody>
+            </table>
+            <div class="info-box">
+                <h3>Eficiência do Sistema</h3>
+                <p><strong>S-CO₂ simples:</strong> 38.46% | <strong>Binário S-CO₂/ORC:</strong> 41.43% | <strong>Ganho:</strong> +2.98%</p>
+            </div>
+        </div>
+        
+        <div id="tab2" class="content">
+            <h2 style="color: #1e3c72; margin-bottom: 12px; font-size: 18px;">Pontos de Recuperação de Calor</h2>
+            <div class="grid">
+                <div class="card">
+                    <h4>Recuperação 1 (Ponto 3)</h4>
+                    <div class="value">303.24°C</div>
+                    <div class="unit">Após Turbina</div>
+                    <p><strong>P:</strong> 7.65 MPa | <strong>ṁ:</strong> 115 kg/s<br><strong>Q:</strong> 11.56 MW | <strong>Uso:</strong> Recuperador interno</p>
+                </div>
+                <div class="card">
+                    <h4>Recuperação 2 (Ponto 4)</h4>
+                    <div class="value">137.60°C</div>
+                    <div class="unit">Após Recuperador</div>
+                    <p><strong>P:</strong> 7.60 MPa | <strong>ṁ:</strong> 115 kg/s<br><strong>Q:</strong> 6.75 MW | <strong>Uso:</strong> Pré-aquec. ORC</p>
+                </div>
+                <div class="card">
+                    <h4>Recuperação 3 (Ponto 5)</h4>
+                    <div class="value">67.21°C</div>
+                    <div class="unit">Após IHX (Principal)</div>
+                    <p><strong>P:</strong> 7.55 MPa | <strong>ṁ:</strong> 115 kg/s<br><strong>Q:</strong> 5.82 MW | <strong>Uso:</strong> ORC evaporação</p>
+                </div>
+                <div class="card">
+                    <h4>Recuperação 4 (Ponto 7)</h4>
+                    <div class="value">127.60°C</div>
+                    <div class="unit">Intercooler</div>
+                    <p><strong>P:</strong> 41.06 MPa | <strong>ṁ:</strong> 115 kg/s<br><strong>Q:</strong> 4.20 MW | <strong>Uso:</strong> Chiller complemento</p>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr><th>Ponto</th><th>ΔT (°C)</th><th>Δh (kJ/kg)</th><th>ṁ (kg/s)</th><th>Q (MW)</th><th>Destino</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="blue"><td>Rec-1</td><td>165.6</td><td>187.9</td><td>115</td><td>21.61</td><td>Recuperador S-CO₂</td></tr>
+                    <tr class="blue"><td>Rec-2</td><td>70.4</td><td>92.8</td><td>115</td><td>10.67</td><td>IHX→ORC</td></tr>
+                    <tr class="blue"><td>Rec-3</td><td>-</td><td>-</td><td>51.9</td><td>5.82</td><td>ORC (efetiva)</td></tr>
+                    <tr class="yellow"><td>Rec-4</td><td>95.6</td><td>36.5</td><td>115</td><td>4.20</td><td>Chiller LiBr</td></tr>
+                    <tr class="green"><td><strong>TOTAL</strong></td><td colspan="3"></td><td><strong>42.30</strong></td><td><strong>Aproveitado</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="tab3" class="content">
+            <h2 style="color: #1e3c72; margin-bottom: 12px; font-size: 18px;">Sistema Chiller Absorção LiBr-H₂O</h2>
+            <div class="grid">
+                <div class="card">
+                    <h4>Alimentação Térmica</h4>
+                    <div class="value">10.02 MW</div>
+                    <div class="unit">Input Total</div>
+                    <p><strong>Fonte 1:</strong> 5.82 MW @ 67°C<br><strong>Fonte 2:</strong> 4.20 MW @ 127°C</p>
+                </div>
+                <div class="card">
+                    <h4>Capacidade Frigorífica</h4>
+                    <div class="value">7.62 MW</div>
+                    <div class="unit">2,167 TR/h</div>
+                    <p><strong>COP:</strong> 0.76<br><strong>Tipo:</strong> Duplo Efeito LiBr-H₂O</p>
+                </div>
+                <div class="card">
+                    <h4>Água Gelada</h4>
+                    <div class="value">7°C / 12°C</div>
+                    <div class="unit">Supply / Return</div>
+                    <p><strong>ΔT:</strong> 5°C<br><strong>Vazão:</strong> 365 m³/h</p>
+                </div>
+                <div class="card">
+                    <h4>Rejeição Total</h4>
+                    <div class="value">17.64 MW</div>
+                    <div class="unit">Heat Rejection</div>
+                    <p><strong>Vazão:</strong> 685 m³/h<br><strong>ΔT:</strong> 30→35.5°C</p>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr><th>Componente</th><th>Função</th><th>T (°C)</th><th>P (kPa)</th><th>Material</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Gerador Alta T</td><td>Concentração</td><td>85-95</td><td>7.5</td><td>Inox 316L</td></tr>
+                    <tr><td>Gerador Baixa T</td><td>2ª evaporação</td><td>70-80</td><td>1.2</td><td>Cu-Ni</td></tr>
+                    <tr><td>Condensador</td><td>Condensação</td><td>35-40</td><td>7.5</td><td>Titânio</td></tr>
+                    <tr><td>Evaporador</td><td>Produção frio</td><td>4-8</td><td>0.9</td><td>Inox 316L</td></tr>
+                    <tr><td>Absorvedor</td><td>Absorção</td><td>28-35</td><td>0.9</td><td>Cu-Ni</td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="tab4" class="content">
+            <h2 style="color: #1e3c72; margin-bottom: 12px; font-size: 18px;">Data Center Liquid Cooling - NVIDIA HGX H100</h2>
+            <div class="grid">
+                <div class="card">
+                    <h4>Infraestrutura TI</h4>
+                    <div class="value">747</div>
+                    <div class="unit">Racks HGX H100</div>
+                    <p><strong>GPUs:</strong> 5,976 × H100 80GB<br><strong>Potência/rack:</strong> 10.2 kW</p>
+                </div>
+                <div class="card">
+                    <h4>Carga Total</h4>
+                    <div class="value">7.62 MW</div>
+                    <div class="unit">IT Load</div>
+                    <p><strong>GPUs:</strong> 4.18 MW<br><strong>Outros:</strong> 3.44 MW</p>
+                </div>
+                <div class="card">
+                    <h4>Sistema Térmico</h4>
+                    <div class="value">18°C / 28°C</div>
+                    <div class="unit">Supply / Return</div>
+                    <p><strong>Fluido:</strong> H₂O + 30% Glicol<br><strong>Vazão:</strong> 850 m³/h</p>
+                </div>
+                <div class="card">
+                    <h4>Eficiência PUE</h4>
+                    <div class="value">1.12</div>
+                    <div class="unit">Power Usage</div>
+                    <p><strong>IT:</strong> 7.62 MW<br><strong>Cooling:</strong> 0.91 MW</p>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr><th>Componente</th><th>Qtd</th><th>Especificação</th><th>Potência (kW)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>GPU H100</td><td>5,976</td><td>80GB HBM3</td><td>4,183</td></tr>
+                    <tr><td>CPU AMD EPYC</td><td>1,494</td><td>9654 96-core</td><td>537</td></tr>
+                    <tr><td>Networking</td><td>747</td><td>InfiniBand NDR</td><td>224</td></tr>
+                    <tr><td>Storage</td><td>747</td><td>NVMe 30TB</td><td>373</td></tr>
+                    <tr><td>Cooling CDU</td><td>75</td><td>Liquid cooling</td><td>300</td></tr>
+                    <tr class="green"><td><strong>TOTAL</strong></td><td></td><td></td><td><strong>5,617</strong></td></tr>
+                </tbody>
+            </table>
+            <div class="info-box">
+                <h3>Capacidade Computacional</h3>
+                <p><strong>FP8:</strong> 4.78 EFlops | <strong>FP16:</strong> 2.39 EFlops | <strong>Memória:</strong> 478 TB HBM3</p>
+            </div>
+        </div>
+        
+        <div id="tab5" class="content">
+            <h2 style="color: #1e3c72; margin-bottom: 12px; font-size: 18px;">Balanço Energético Total - Sistema Integrado</h2>
+            <div class="grid">
+                <div class="card">
+                    <h4>Entrada Térmica SMR</h4>
+                    <div class="value">100.00 MW</div>
+                    <div class="unit">Reator Nuclear</div>
+                    <p><strong>Coolant:</strong> Sódio líquido<br><strong>T:</strong> 500°C</p>
+                </div>
+                <div class="card">
+                    <h4>Geração S-CO₂</h4>
+                    <div class="value">38.45 MW</div>
+                    <div class="unit">Potência Líquida</div>
+                    <p><strong>η:</strong> 38.45%<br><strong>Turbina:</strong> 45.2 MW bruto</p>
+                </div>
+                <div class="card">
+                    <h4>Geração ORC</h4>
+                    <div class="value">2.98 MW</div>
+                    <div class="unit">Adicional</div>
+                    <p><strong>Incremento:</strong> +2.98%<br><strong>Fluido:</strong> R134a</p>
+                </div>
+                <div class="card">
+                    <h4>Eficiência Total</h4>
+                    <div class="value">41.43%</div>
+                    <div class="unit">Sistema Binário</div>
+                    <p><strong>vs simples:</strong> +7.75%<br><strong>Geração:</strong> 41.43 MW</p>
+                </div>
+            </div>
+            
+            <h3 style="margin: 18px 0 10px; color: #1e3c72; font-size: 16px;">Fluxo Energético Detalhado</h3>
+            <table>
+                <thead>
+                    <tr><th>Fluxo</th><th>Potência (MW)</th><th>% Input</th><th>Tipo</th><th>Destino</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Entrada Reator</strong></td><td>100.00</td><td>100.0</td><td>Térmica</td><td>-</td></tr>
+                    <tr><td>Turbina S-CO₂ (bruta)</td><td>45.20</td><td>45.2</td><td>Mecânica</td><td>Geração</td></tr>
+                    <tr><td>Compressores S-CO₂</td><td>-6.75</td><td>-6.75</td><td>Consumo</td><td>Compressão</td></tr>
+                    <tr class="blue"><td><strong>S-CO₂ Líquida</strong></td><td><strong>38.45</strong></td><td><strong>38.45</strong></td><td><strong>Elétrica</strong></td><td><strong>Rede</strong></td></tr>
+                    <tr><td>Turbina ORC (bruta)</td><td>3.26</td><td>3.26</td><td>Mecânica</td><td>Geração</td></tr>
+                    <tr><td>Bomba ORC</td><td>-0.28</td><td>-0.28</td><td>Consumo</td><td>Circulação</td></tr>
+                    <tr class="blue"><td><strong>ORC Líquida</strong></td><td><strong>2.98</strong></td><td><strong>2.98</strong></td><td><strong>Elétrica</strong></td><td><strong>Rede</strong></td></tr>
+                    <tr class="green"><td><strong>GERAÇÃO TOTAL</strong></td><td><strong>41.43</strong></td><td><strong>41.43</strong></td><td><strong>Elétrica</strong></td><td><strong>Disponível</strong></td></tr>
+                    <tr><td>Calor→Chiller</td><td>10.02</td><td>10.02</td><td>Térmica</td><td>Absorção</td></tr>
+                    <tr><td>Refrigeração produzida</td><td>7.62</td><td>7.62</td><td>Frigorífica</td><td>Data Center</td></tr>
+                    <tr><td>IT Load Data Center</td><td>7.62</td><td>7.62</td><td>Elétrica</td><td>Computação</td></tr>
+                    <tr><td>Cooling overhead</td><td>0.91</td><td>0.91</td><td>Elétrica</td><td>Bombas/CDU</td></tr>
+                    <tr class="yellow"><td><strong>Perdas térmicas</strong></td><td><strong>48.55</strong></td><td><strong>48.55</strong></td><td><strong>Rejeição</strong></td><td><strong>Torre</strong></td></tr>
+                </tbody>
+            </table>
+            
+            <div class="info-box">
+                <h3>Resumo do Sistema Integrado</h3>
+                <p>
+                    <strong>Entrada:</strong> 100 MWₜ (SMR 500°C)<br>
+                    <strong>Saída elétrica:</strong> 41.43 MWₑ (rede)<br>
+                    <strong>Consumo DC:</strong> 8.53 MWₑ (7.62 IT + 0.91 cooling)<br>
+                    <strong>Saldo rede:</strong> 32.90 MWₑ<br>
+                    <strong>Refrigeração:</strong> 7.62 MW (2,167 TR/h)<br>
+                    <strong>PUE Data Center:</strong> 1.12 (classe Tier III)<br>
+                    <strong>Eficiência global:</strong> 41.43% (ciclo binário)<br>
+                    <strong>GPUs operando:</strong> 5,976 × NVIDIA H100 80GB
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
